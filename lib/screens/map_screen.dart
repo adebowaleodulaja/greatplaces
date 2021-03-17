@@ -37,9 +37,11 @@ class _MapScreenState extends State<MapScreen> {
           if (widget.isSelecting)
             IconButton(
               icon: Icon(Icons.check),
-              onPressed: _pickedLocation == null ? null : () {
-                Navigator.of(context).pop(_pickedLocation);
-              },
+              onPressed: _pickedLocation == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedLocation);
+                    },
             )
         ],
       ),
@@ -54,12 +56,16 @@ class _MapScreenState extends State<MapScreen> {
         myLocationButtonEnabled: true,
         myLocationEnabled: true,
         onTap: widget.isSelecting ? _selectLocation : null,
-        markers: _pickedLocation == null
+        markers: (_pickedLocation == null && widget.isSelecting)
             ? {}
             : {
                 Marker(
                   markerId: MarkerId("m1"),
-                  position: _pickedLocation,
+                  position: _pickedLocation ??
+                      LatLng(
+                        widget.initialLocation.latitude,
+                        widget.initialLocation.longitude,
+                      ),
                 ),
               },
       ),
